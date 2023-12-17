@@ -33,7 +33,7 @@ export async function POST(request, response) {
         error: "Failed to add to database.",
       });
     }
-    return NextResponse.json({ success: true, newPost });
+    return NextResponse.json({ success: true, post: newPost });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message });
   }

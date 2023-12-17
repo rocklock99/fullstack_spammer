@@ -1,11 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import { useState } from "react";
 
-export default function NewCommentForm({ post, setIsCommenting, setCounter }) {
+export default function NewCommentForm({
+  post,
+  setIsCommenting,
+  fetchCommentsTrigger,
+  setFetchCommentsTrigger,
+}) {
   const [comment, setComment] = useState("");
-
-  const router = useRouter();
 
   function handleCancelButton() {
     setIsCommenting(false);
@@ -29,13 +31,12 @@ export default function NewCommentForm({ post, setIsCommenting, setCounter }) {
     });
     const info = await response.json();
     if (info.success) {
-      console.log("New comment successful");
+      console.log("adding comment");
+      setFetchCommentsTrigger(!fetchCommentsTrigger);
       setIsCommenting(false);
       setComment("");
-      setCounter((prevCounter) => prevCounter + 1);
-      router.refresh();
     } else {
-      console.log("New comment failed");
+      console.log("adding comment failed");
     }
   }
   return (

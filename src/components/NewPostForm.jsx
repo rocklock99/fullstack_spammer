@@ -1,10 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import { useState } from "react";
 
-export default function NewPostForm() {
+export default function NewPostForm({
+  setFetchPostsTrigger,
+  fetchPostsTrigger,
+}) {
   const [postText, setPostText] = useState("");
-  const router = useRouter();
 
   async function handleFormSubmit(event) {
     event.preventDefault();
@@ -19,7 +20,7 @@ export default function NewPostForm() {
     });
     const info = await response.json();
     setPostText("");
-    router.refresh();
+    setFetchPostsTrigger(!fetchPostsTrigger);
   }
 
   function handleInputChanges(event) {

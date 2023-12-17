@@ -1,10 +1,8 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import { useEffect, useState } from "react";
 
-export default function Comments({ post, counter }) {
+export default function Comments({ post, fetchCommentsTrigger }) {
   const [comments, setComments] = useState([]);
-  const router = useRouter();
 
   async function fetchComments() {
     const response = await fetch(`/api/posts/${post.id}/comments`, {
@@ -12,17 +10,16 @@ export default function Comments({ post, counter }) {
     });
     const info = await response.json();
     if (info.success) {
-      console.log("Fetching comments succeeded.");
+      console.log("fetching comments");
       setComments(info.comments);
-      router.refresh();
     } else {
-      console.log("Fetching comments failed.");
+      console.log("fetching comments failed");
     }
   }
 
   useEffect(() => {
     fetchComments();
-  }, [counter]);
+  }, [fetchCommentsTrigger]);
 
   return (
     <div className="comments-containers">

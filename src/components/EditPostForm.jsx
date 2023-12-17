@@ -1,11 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 import { useState } from "react";
 
-export default function EditPostForm({ post, setIsEditing }) {
+export default function EditPostForm({
+  post,
+  setIsEditing,
+  setFetchPostsTrigger,
+  fetchPostsTrigger,
+}) {
   const [postText, setPostText] = useState(post.text);
-
-  const router = useRouter();
 
   function handleCancelButton() {
     setIsEditing(false);
@@ -26,15 +28,13 @@ export default function EditPostForm({ post, setIsEditing }) {
         text: postText,
       }),
     });
-    console.log(response.ok);
     const info = await response.json();
-    console.log(info);
     if (info.success) {
-      console.log("Edit successful");
+      console.log("editing");
       setIsEditing(false);
-      router.refresh();
+      setFetchPostsTrigger(!fetchPostsTrigger);
     } else {
-      console.log("Edit failed");
+      console.log("editing failed");
     }
   }
   return (

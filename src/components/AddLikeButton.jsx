@@ -1,18 +1,20 @@
 "use client";
-import { useRouter } from "next/navigation.js";
 
-export default function AddLikeButton({ post }) {
-  const router = useRouter();
+export default function AddLikeButton({
+  post,
+  fetchPostsTrigger,
+  setFetchPostsTrigger,
+}) {
   async function handleAddLikeButton() {
     const response = await fetch(`/api/posts/${post.id}/likes`, {
       method: "PUT",
     });
     const info = await response.json();
     if (response.ok) {
-      console.log("Adding like succeeded.");
-      router.refresh();
+      console.log("adding like");
+      setFetchPostsTrigger(!fetchPostsTrigger);
     } else {
-      console.log("Adding like failed.");
+      console.log("adding like failed");
     }
   }
   return (
